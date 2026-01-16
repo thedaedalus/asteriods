@@ -13,6 +13,8 @@ def main():
         f"Screen width: {SCREEN_WIDTH}\n"
         f"Screen height: {SCREEN_HEIGHT}"
     )
+    clock = pygame.time.Clock()
+    dt = 0
     while True:
         log_state()
         for event in pygame.event.get():
@@ -21,6 +23,8 @@ def main():
             pass
         screen.fill("black")
         pygame.display.flip()
+        clock.tick(60)
+        dt = clock.get_time() / 1000.0
 
 
 if __name__ == "__main__":
