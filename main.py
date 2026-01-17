@@ -1,9 +1,11 @@
+import sys
+
 import pygame
 
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from constants import *  # noqa
-from logger import log_state
+from logger import log_event, log_state
 from player import Player
 
 
@@ -18,6 +20,7 @@ def main():
     )
     clock = pygame.time.Clock()
     dt = 0
+    hit = None
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -30,8 +33,6 @@ def main():
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)  # noqa
     asteroidfield = AsteroidField()  # noqa
 
-    print("drawable size:", len(drawable))
-
     while True:
         log_state()
         for event in pygame.event.get():
@@ -42,6 +43,13 @@ def main():
         screen.fill("black")
 
         updatable.update(dt)
+        for asteroid in asteroids:
+            hit = asteroid.collides_with(player)
+            if hit:
+                log_event("player_hit")
+                print("Game over!")
+                sys.exit()
+
         for object in drawable:
             object.draw(screen)
 
