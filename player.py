@@ -1,6 +1,6 @@
 import pygame
 
-from circleshape import CircleShape
+from base import CircleShape
 from constants import *  # noqa
 from shot import Shot
 
@@ -21,7 +21,7 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
-        pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)  # type: ignore # noqa
+        pygame.draw.polygon(screen, PLAYER_COLOR, self.triangle(), LINE_WIDTH)  # type: ignore # noqa
 
     def update(self, dt):
         self.shoot_timer -= dt

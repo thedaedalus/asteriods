@@ -1,6 +1,6 @@
 import pygame
 
-from circleshape import CircleShape
+from base import CircleShape
 from constants import *  # noqa
 
 
@@ -9,7 +9,7 @@ class Shot(CircleShape):
         super().__init__(x, y, SHOT_RADIUS)  # noqa
 
     def draw(self, screen):
-        pygame.draw.circle(screen, "yellow", self.position, self.radius, LINE_WIDTH)  # type: ignore # noqa
+        pygame.draw.circle(screen, BULLET_COLOR, self.position, self.radius, LINE_WIDTH)  # type: ignore # noqa
 
     def update(self, dt):
         self.position += self.velocity * dt  # type: ignore

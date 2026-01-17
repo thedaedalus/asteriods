@@ -2,7 +2,7 @@ import random
 
 import pygame
 
-from circleshape import CircleShape
+from base import CircleShape
 from constants import *  # noqa
 from logger import log_event
 
@@ -12,10 +12,17 @@ class Asteroid(CircleShape):
         super().__init__(x, y, radius)  # noqa
 
     def draw(self, screen):
-        pygame.draw.circle(screen, "white", self.position, self.radius, LINE_WIDTH)  # type: ignore # noqa
+        pygame.draw.circle(
+            screen,
+            ASTEROID_COLOR,  # type: ignore # noqa
+            self.position,
+            self.radius,
+            LINE_WIDTH,  # type: ignore # noqa
+        )
 
     def update(self, dt):
         self.position += self.velocity * dt  # type: ignore
+        self.wrap_around_screen()
 
     def split(self):
         self.kill()
