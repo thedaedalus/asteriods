@@ -12,7 +12,7 @@ from shot import Shot
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH))  # noqa
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # noqa
     VERSION = pygame.version.ver
     print(
         f"Starting Asteroids with pygame version: {VERSION}\n"
@@ -52,6 +52,14 @@ def main():
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
+
+        for asteroid in asteroids:
+            for shot in shots:
+                hit = asteroid.collides_with(shot)
+                if hit:
+                    log_event("asteroid_shot")
+                    asteroid.kill()
+                    shot.kill()
 
         for object in drawable:
             object.draw(screen)
