@@ -22,6 +22,7 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
     hit = None
+    running = True
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -36,12 +37,13 @@ def main():
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)  # noqa
     asteroidfield = AsteroidField()  # noqa
 
-    while True:
-        log_state()
+    while running:
+        # poll for events
+        log_state()  # logging
+        # pygame.QUIT event means the user clicked X to close your window
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
-            pass
+                running = False
 
         screen.fill("black")
 
