@@ -1,4 +1,5 @@
 import sys
+from pydoc import text
 
 import pygame
 
@@ -8,11 +9,13 @@ from constants import *  # noqa
 from logger import log_event, log_state
 from player import Player
 from shot import Shot
+from ui import Text
 
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # noqa
+    pygame.display.set_caption("Asteroids")
     VERSION = pygame.version.ver
     print(
         f"Starting Asteroids with pygame version: {VERSION}\n"
@@ -33,6 +36,11 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)  # type: ignore
     AsteroidField.containers = updatable  # type: ignore
     Shot.containers = (shots, updatable, drawable)  # type: ignore
+    title = Text("Asteroids!!!!", "Magenta", 30, SCREEN_WIDTH - 500, 1)  # type: ignore # noqa
+    score = 0
+    # score_text = Text(
+    #    "SCORE: " + str(score), "Magenta", 30, SCREEN_WIDTH - 450, 1
+    # )  # type : ignore #noqa
 
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)  # noqa
     asteroidfield = AsteroidField()  # noqa
@@ -45,7 +53,8 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        screen.fill("black")
+        screen.fill(BACKGROUND_COLOR)  # type: ignore # noqa
+        # title.draw(screen)
 
         updatable.update(dt)
         for asteroid in asteroids:
@@ -53,18 +62,28 @@ def main():
             if hit:
                 log_event("player_hit")
                 print("Game over!")
-                sys.exit()
+                running = False
 
         for asteroid in asteroids:
             for shot in shots:
                 hit = asteroid.collides_with(shot)
                 if hit:
                     log_event("asteroid_shot")
+                    score += 100
+
                     asteroid.split()
                     shot.kill()
 
         for object in drawable:
             object.draw(screen)
+        score_text = Text(
+            "SCORE: " + str(score),
+            "Magenta",
+            30,
+            SCREEN_WIDTH - 450,
+            1,  # type : ignore #noqa
+        )
+        score_text.draw(screen)
 
         pygame.display.flip()
         clock.tick(60)
@@ -73,3 +92,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    pygame.quit()
+    sys.exit()

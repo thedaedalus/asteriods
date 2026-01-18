@@ -43,6 +43,7 @@ class Player(CircleShape):
 
         if keys[pygame.K_SPACE]:
             self.shoot()
+        self.wrap_around_screen()
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt  # noqa
